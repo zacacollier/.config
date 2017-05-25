@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="gnome-shell-extensions-workspace-monitor">
+    <enum id="org.gnome.shell.extensions.workspace-monitor.display-mode">
+        <value value="0" nick="dock"/>
+        <value value="1" nick="overlay"/>
+    </enum>
+    <enum id="org.gnome.shell.extensions.workspace-monitor.window-list-behavior">
+        <value value="0" nick="onworkspace"/>
+        <value value="1" nick="notonworkspace"/>
+    </enum>
+  <schema path="/org/gnome/shell/extensions/workspace-monitor/" id="org.gnome.shell.extensions.workspace-monitor">
+    <key name="display-mode" enum="org.gnome.shell.extensions.workspace-monitor.display-mode">
+      <default>'dock'</default>
+      <summary>Display mode of the panel</summary>
+      <description>The behavior of the workspace monitor panel:
+      dock: will reserve space like gnome shell's top bar,
+      overlay: will appear above other windows.</description>
+    </key>
+    <key type="i" name="thumbnail-max-size">
+      <default>250</default>
+      <summary>The maximum size a window thumbnail can have.</summary>
+      <description>The maximum size a window thumbnail can have.</description>
+    </key>
+    <key type="b" name="always-track-active-workspace">
+      <default>false</default>
+      <summary>Automatically monitor the active workspace.</summary>
+      <description>Automatically show the active workspace in the workspace monitor panel.</description>
+    </key>
+    <key type="b" name="use-mouse-wheel">
+      <default>true</default>
+      <summary>Use the mouse wheel to switch of workspace.</summary>
+      <description>Enables the workspace monitor to change of workspace using the mouse wheel.</description>
+    </key>
+    <key type="b" name="show-app-icon">
+      <default>true</default>
+      <summary>Shows the window's application icon.</summary>
+      <description>Shows the window's application icon in the bottom left corner of the window thumbnail.</description>
+    </key>
+    <key type="b" name="dim-unfocused-windows">
+      <default>true</default>
+      <summary>Dims windows that are not focused.</summary>
+      <description>Dims windows that are not focused.</description>
+    </key>
+    <key name="window-list-behavior" enum="org.gnome.shell.extensions.workspace-monitor.window-list-behavior">
+      <default>'onworkspace'</default>
+      <summary>The behavior to display the window list</summary>
+      <description>The window list to display:
+      onworkspace: will display the windows belonging to the selected workspace,
+      notonworkspace: will display the windows that are not belonging to the selected workspace.</description>
+    </key>
+    <key type="as" name="toggle-workspace-monitor-panel-keybinding">
+      <default><![CDATA[['<Alt>F3']]]></default>
+      <summary>Shows or hides the workspace monitor panel.</summary>
+      <description>Shows or hides the workspace monitor panel.</description>
+    </key>
+  </schema>
+</schemalist>

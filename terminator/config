@@ -1,0 +1,45 @@
+[global_config]
+  borderless = True
+  enabled_plugins = CustomCommandsMenu, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  extra_styling = False
+  geometry_hinting = True
+  handle_size = 1
+  inactive_color_offset = 0.6
+  suppress_multiple_term_dialog = True
+  tab_position = bottom
+  title_hide_sizetext = True
+  title_transmit_bg_color = "#000000"
+[keybindings]
+  go_down = <Primary><Alt>j
+  go_left = <Primary><Alt>h
+  go_right = <Primary><Alt>l
+  go_up = <Primary><Alt>k
+  layout_launcher = None
+  split_horiz = <Primary><Alt>minus
+  split_vert = <Primary><Alt>backslash
+  switch_to_tab_1 = <Alt>1
+  switch_to_tab_2 = <Alt>2
+  switch_to_tab_3 = <Alt>3
+  switch_to_tab_4 = <Alt>4
+  switch_to_tab_5 = <Alt>5
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      profile = default
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    background_darkness = 0.76
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    cursor_shape = underline
+    font = Operator Mono weight=280 14
+    palette = "#000000:#aa0000:#00aa00:#aa5500:#0000aa:#aa00aa:#00aaaa:#aaaaaa:#555555:#ff5555:#55ff55:#ffff55:#5555ff:#ff55ff:#55ffff:#ffffff"
+    scrollbar_position = hidden
+    show_titlebar = False
+    use_system_font = False

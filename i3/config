@@ -1,0 +1,270 @@
+# i3 config file (v4) Please see http://i3wm.org/docs/userguide.html for a complete reference!
+#
+# This config file uses keycodes (bindsym) and was written for the QWERTY
+# layout.
+#
+# To get a config file with the same key positions, but for your current
+# layout, use the i3-config-wizard
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. However, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn’t scale on retina/hidpi displays.
+
+font pango:Operator Mono For Powerline, Light Italic 14
+### THEME ###
+
+### Base16 Tomorrow Night
+
+set $FOCUS #989898
+set $UNFOCUS #3c3b37
+set $base00 #1d1f21
+set $base01 #282a2e
+set $base02 #373b41
+set $base03 #969896
+set $base04 #b4b7b4
+set $base05 #c5c8c6
+set $base06 #e0e0e0
+set $base07 #ffffff
+set $base08 #cc6666
+set $base09 #de935f
+set $base0A #f0c674
+set $base0B #b5bd68
+set $base0C #8abeb7
+set $base0D #81a2be
+set $base0E #b294bb
+set $base0F #a3685a
+# Layout colors 	    bord 	bg 		text    indicator (split)
+client.focused 			$FOCUS $FOCUS $FOCUS $FOCUS
+client.focused_inactive $UNFOCUS $UNFOCUS $UNFOCUS $UNFOCUS
+client.unfocused 		$UNFOCUS $UNFOCUS $UNFOCUS $UNFOCUS
+client.urgent 			$FOCUS $FOCUS $FOCUS $FOCUS
+client.background 		$UNFOCUS
+
+### Borders ###
+new_window pixel 4
+new_float pixel 4
+
+focus_follows_mouse no
+
+### Gaps ###
+set $default_gaps_inner 12
+set $default_gaps_outer 0
+gaps inner $default_gaps_inner
+gaps outer $default_gaps_outer
+
+set $ws1 I
+set $ws2 II
+set $ws3 III
+set $ws4 IV
+set $ws5 V
+set $ws6 VI
+set $ws7 VII
+set $ws8 VIII
+set $ws9 IX
+set $ws10 X
+
+
+# use these keys for focus, movement, and resize directions when reaching for
+# the arrows is not convenient
+set $up k
+set $down j
+set $left h
+set $right l
+
+# use Mouse+Mod4 to drag floating windows to their wanted position
+floating_modifier Mod4
+
+# start a terminal
+bindsym Mod4+Return exec --no-startup-id termite
+
+# kill focused window
+bindsym Mod4+q kill
+
+# start dmenu (a program launcher)
+#bindsym Mod4+d exec dmenu_run
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym Mod4+d exec --no-startup-id i3-dmenu-desktop
+bindsym Mod4+d exec rofi -show run -config ~/.config/rofi/base16-tomorrow-night
+# Use Mouse+Mod4 to drag floating windows
+floating_modifier Mod4
+
+# change focus
+bindsym Mod4+$left focus left
+bindsym Mod4+$down focus down
+bindsym Mod4+$up focus up
+bindsym Mod4+$right focus right
+
+# alternatively, you can use the cursor keys:
+bindsym Mod4+Left focus left
+bindsym Mod4+Down focus down
+bindsym Mod4+Up focus up
+bindsym Mod4+Right focus right
+
+# move focused window
+bindsym Mod4+Shift+$left move left
+bindsym Mod4+Shift+$down move down
+bindsym Mod4+Shift+$up move up
+bindsym Mod4+Shift+$right move right
+
+# alternatively, you can use the cursor keys:
+bindsym Mod4+Shift+Left move left
+bindsym Mod4+Shift+Down move down
+bindsym Mod4+Shift+Up move up
+bindsym Mod4+Shift+Right move right
+
+# split in horizontal orientation
+bindsym Mod4+c split h
+
+# split in vertical orientation
+bindsym Mod4+v split v
+
+# enter fullscreen mode for the focused container
+bindsym Mod4+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym Mod4+s layout stacking
+bindsym Mod4+w layout tabbed
+bindsym Mod4+e layout toggle split
+
+# toggle tiling / floating
+bindsym Mod4+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym Mod4+space focus mode_toggle
+
+# focus the parent container
+bindsym Mod4+a focus parent
+
+# focus the child container
+#bindsym Mod4+d focus child
+
+# move the currently focused window to the scratchpad
+bindsym Mod4+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym Mod4+minus scratchpad show
+
+# switch to workspace
+bindsym Mod4+1 workspace $ws1
+bindsym Mod4+2 workspace $ws2
+bindsym Mod4+3 workspace $ws3
+bindsym Mod4+4 workspace $ws4
+bindsym Mod4+5 workspace $ws5
+bindsym Mod4+6 workspace $ws6
+bindsym Mod4+7 workspace $ws7
+bindsym Mod4+8 workspace $ws8
+bindsym Mod4+9 workspace $ws9
+bindsym Mod4+0 workspace $ws10
+
+# move focused container to workspace
+bindsym Mod4+Shift+1 move container to workspace $ws1
+bindsym Mod4+Shift+2 move container to workspace $ws2
+bindsym Mod4+Shift+3 move container to workspace $ws3
+bindsym Mod4+Shift+4 move container to workspace $ws4
+bindsym Mod4+Shift+5 move container to workspace $ws5
+bindsym Mod4+Shift+6 move container to workspace $ws6
+bindsym Mod4+Shift+7 move container to workspace $ws7
+bindsym Mod4+Shift+8 move container to workspace $ws8
+bindsym Mod4+Shift+9 move container to workspace $ws9
+bindsym Mod4+Shift+0 move container to workspace $ws10
+
+# reload panel layout
+bindsym Mod4+g exec ~/.config/load_layout.sh
+# reload the configuration file
+bindsym Mod4+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym Mod4+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym Mod4+Shift+e exec --no-startup-id  "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym Mod4+Shift+v exec --no-startup-id "$HOME/.config/i3/scripts/blur.sh"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing down will grow the window’s height.
+        bindsym $left       resize shrink width 10 px or 10 ppt
+        bindsym $down       resize grow height 10 px or 10 ppt
+        bindsym $up         resize shrink height 10 px or 10 ppt
+        bindsym $right      resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left        resize shrink width 10 px or 10 ppt
+        bindsym Down        resize grow height 10 px or 10 ppt
+        bindsym Up          resize shrink height 10 px or 10 ppt
+        bindsym Right       resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym Mod4+r mode "resize"
+
+### Shortcuts ###
+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioPlay exec --no-startup-id playcontrols toggle
+bindsym XF86AudioStop exec --no-startup-id playcontrols stop
+bindsym XF86AudioPrev exec --no-startup-id playcontrols prev
+bindsym XF86AudioNext exec --no-startup-id playcontrols next
+bindsym Mod4+KP_Enter exec --no-startup-id gnome-calculator
+bindsym Mod4+F9 exec --no-startup-id /home/luca/Documenti/toggletouchpad
+
+bindsym Mod4+shift+g exec --no-startup-id geany
+bindsym Mod4+p exec --no-startup-id pcmanfm
+# bindsym Mod4+shift+a exec --no-startup-id audacious
+# bindsym Mod4+shift+f exec --no-startup-id urxvt -name ranger -e ranger
+# bindsym Mod4+shift+v exec --no-startup-id vlc
+# bindsym Mod4+shift+s exec --no-startup-id spotify --ui.track_notifications_enabled=false
+bindsym Mod4+shift+i exec --no-startup-id icedove
+# Start Chrome
+bindsym Mod4+shift+n exec --no-startup-id chromium
+# Cycle wallpapers
+# bindsym Mod4+shift+w exec "wal -i $HOME/Pictures/Wallpapers && wal-set"
+
+assign [class="Audacious"] $ws6
+assign [class="Vlc"] $ws6
+assign [class="Chromium"] $ws1
+assign [class="Telegram"] $ws2
+assign [class="URxvt" instance="ncmpcpp"] $ws3
+assign [class="URxvt" instance="tty-clock"] $ws3
+assign [class="URxvt" instance="mcabber"] $ws2
+
+
+### floating windows ###
+# for_window [class="Steam"] floating enable
+# for_window [class="Gimp"] floating enable
+# for_window [class="PlayOnLinux"] floating enable
+# for_window [class="URxvt" instance="games-launcher$"] move to workspace $ws5, floating enable , move absolute position 400px 200px
+
+### Bar config
+bar {
+    status_command i3blocks
+}
+### Exec ###
+exec --no-startup-id compton -b --config ~/.config/compton.conf
+exec --no-startup-id feh --bg-center $HOME/Pictures/Wallpapers/hex-000097.png
+exec --no-startup-id i3bf -config $HOME/.config/i3/i3barfodder/config
+# exec --no-startup-id xfce4-panel --disable-wm-check exec --no-startup-id i3-msg 'workspace $ws3'
+# exec --no-startup-id i3-msg 'exec urxvt -e neofetch'
+# exec --no-startup-id sh ~/.fehbg
+# exec --no-startup-id mpd
+exec --no-startup-id nm-applet
+exec --no-startup-id urxvt -name tty-clock -e tty-clock -C 2 -c -d 20000000000
+# exec --no-startup-id xinput disable 'ETPS/2 Elantech Touchpad'
+# exec --no-startup-id xinput set-prop 'USB Optical Mouse' 261 0.8
