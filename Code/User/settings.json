@@ -1,0 +1,23 @@
+{
+  "workbench.colorTheme": "Base16 Tomorrow Dark",
+  "editor.cursorBlinking": "phase",
+  "editor.fontFamily": "'Office Code Pro', 'monospace', monospace, 'Droid Sans Fallback'",
+  "editor.fontLigatures": true,
+  "editor.formatOnSave": true,
+  "editor.lineNumbers": "relative",
+  "editor.tabSize": 2,
+  "window.zoomLevel": -1,
+  "prettier.eslintIntegration": true,
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<C-n>"],
+      "after": ["g", "b"]
+    },
+    {
+      "before": ["g", "r"],
+      "commands": ["references-view.find"]
+    }
+  ],
+  "editor.minimap.enabled": false,
+  "workbench.editor.enablePreview": false
+}
