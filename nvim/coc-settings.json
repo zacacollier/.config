@@ -1,0 +1,39 @@
+{
+  "coc.preferences.colorSupport": true,
+  "languageserver": {
+    "flow": {
+      "command": "flow",
+      "args": ["lsp"],
+      "filetypes": ["javascript", "javascriptreact"],
+      "initializationOptions": {},
+      "requireRootPattern": true,
+      "settings": {},
+      "rootPatterns": [".flowconfig"]
+    }
+  },
+  "diagnostic.errorSign": {
+    "type": "string",
+    "description": "Text of error sign",
+    "default": "✘ "
+  },
+  "diagnostic.warningSign": {
+    "type": "string",
+    "description": "Text of warning sign",
+    "default": "⚠"
+  },
+  "diagnostic.infoSign": {
+    "type": "string",
+    "description": "Text of info sign",
+    "default": "💡 "
+  },
+  "diagnostic.hintSign": {
+    "type": "string",
+    "description": "Text of hint sign",
+    "default": "💡 "
+  },
+  "suggest.maxPreviewWidth": {
+    "type": "number",
+    "default": 80,
+    "description": "Maxmium width of floating preview window."
+  }
+}

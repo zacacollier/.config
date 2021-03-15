@@ -18,6 +18,7 @@
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-sensible'
   Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-markdown'
 
   " Bling
   Plug 'chriskempson/base16-vim'
@@ -27,19 +28,16 @@
   Plug 'miyakogi/seiya.vim'
 
   " Highlighting & Completion
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'mxw/vim-jsx'
   Plug 'pangloss/vim-javascript'
   Plug 'leafgarland/typescript-vim'
-  Plug 'reasonml-editor/vim-reason'
   Plug 'w0rp/ale'
   Plug 'flowtype/vim-flow'
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   Plug 'jparise/vim-graphql'
   Plug 'statico/vim-javascript-sql'
-  Plug 'posva/vim-vue'
   Plug 'vito-c/jq.vim'
-  Plug 'udalov/kotlin-vim'
+  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
   call plug#end()
 
@@ -95,6 +93,32 @@
   highlight Comment cterm=italic
   set list!
 
+  " coc.vim
+  " Remap keys for gotos
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+  " Use K to show documentation in preview window
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  " Highlight symbol under cursor on CursorHold
+  autocmd CursorHold * silent call CocActionAsync('highlight')
+
+  " Workaround to get syntax highlighting in floating documentation window
+  " See https://github.com/neoclide/coc.nvim/issues/80
+  let g:markdown_fenced_languages = ['css', 'javascript', 'js=javascript', 'typescript']
+  hi link CocFloating markdown
+  hi link CocCodeLens markdown
+
+
   " Line number highlighting
   hi LineNr cterm=italic
   hi CursorLineNr cterm=bold,italic,standout
@@ -143,8 +167,6 @@
 
   " Use tabs for .go files
   autocmd Filetype go         setlocal tabstop=4 shiftwidth=4 softtabstop=4
-  " Use 4 spaces for kotlin files
-  autocmd Filetype kotlin     setlocal tabstop=4 shiftwidth=4 softtabstop=4
 
   " Rainbow parens
   augroup rainbow_filetypes
@@ -163,7 +185,8 @@
   let g:airline#extensions#tabline#left_alt_sep = '|'
   let g:airline#extensions#branch#enabled = 1
   let g:airline#extensions#branch#empty_message = ''
-
+  let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+  let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
   " ALE
   let g:airline#extensions#ale#enabled = 1
   let airline#extensions#ale#error_symbol = '✘ '
@@ -176,8 +199,6 @@
   \   'javascript': ['eslint', 'flow'],
   \   'typescript': ['tsserver'],
   \   'reason': ['merlin'],
-  \   'kotlin': ['kotlinc', 'ktlint'],
-  \   'java': ['javac']
   \}
   let g:ale_fixers = {
   \   'javascript': ['prettier', 'eslint'],
@@ -185,7 +206,6 @@
   \   'vue': ['prettier', 'eslint'],
   \   'java': ['google_java_format']
   \}
-  let g:ale_kotlin_ktlint_executable = '/usr/bin/ktlint'
   let g:ale_fix_on_save = 1
   let g:ale_javascript_prettier_use_local_config = 1
 
