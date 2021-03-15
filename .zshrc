@@ -30,53 +30,6 @@ if [ -r ~/.zshrc -a -r ~/.zshrc.global -a ! -r ~/.zshrc.local ] ; then
     printf '-!-\n'
 fi
 
-
-function chpwd() {
-    emulate -L zsh
-    ls -a
-}
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-
-base16_tomorrow-night
-
-alias ga='git add'
-alias gst='git status'
-alias gcm='git commit -m'
-alias gri='git rebase -i'
-alias glog='git log --pretty=oneline'
-alias gurp='git commit -am "up" && gri HEAD~2'
-alias gco='git checkout'
-alias gcom='git checkout master'
-alias gpo='git push origin $(git rev-parse --abbrev-ref HEAD)'
-alias tma='tmux attach -d'
-# alias cat='bat'
-alias ovpn='pass -c vpn && sudo openvpn --config $HOME/client.ovpn'
-alias ovpn-prod='pass -c vpn-prod && sudo openvpn --config $HOME/client-prod.ovpn'
-alias oldDev='export AWS_PROFILE=admin-service && echo $AWS_PROFILE'
-alias newDev='export AWS_PROFILE=cleanroom && echo $AWS_PROFILE'
-alias sort-mirrors='sudo reflector --country US --verbose --latest 5 --sort rate --save /etc/pacman.d/mirrorlist'
-alias sys='systemctl'
-alias pac='sudo pacman'
-alias pacs='sudo pacman -S'
-alias rm='noglob rm -iv --one-file-system'
-alias dots='nvim ~/.zshrc && source ~/.zshrc'
-
-
-export EDITOR=nvim
-export GOPATH=$HOME/go
-export PATH=$HOME/.local/bin:$GOPATH/bin:$PATH
-export AWS_PROFILE=admin-service
-
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-export PATH=$PATH:~/.roswell/bin
-
 ## Settings for umask
 #if (( EUID == 0 )); then
 #    umask 002
@@ -381,18 +334,105 @@ export PATH=$PATH:~/.roswell/bin
 #vimhelp ()    { vim -c "help $1" -c on -c "au! VimEnter *" }
 
 ## END OF FILE #################################################################
-#
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+        eval "$("$BASE16_SHELL/profile_helper.sh")"
+base16_tomorrow-night
 source /usr/share/nvm/init-nvm.sh
+
+# edit command in $EDITOR
+# Enable Ctrl-x-e to edit command line
+autoload -U edit-command-line
+# Emacs style
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
+
+function chpwd() {
+    emulate -L zsh
+    ls -a
+}
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+alias ga='git add'
+alias gst='git status'
+alias gcm='git commit -m'
+alias gca='git commit --amend --no-edit'
+alias gri='git rebase -i'
+alias glog='git log --pretty=oneline'
+alias gurp='git commit -am "up" && gri HEAD~2'
+alias gco='git checkout'
+alias gcom='git checkout master'
+alias gpo='git push origin $(git rev-parse --abbrev-ref HEAD)'
+alias tma='tmux attach -d'
+alias tmn='tmux new-session -d 'me'; cd ~/Workspace || return; tmux new-session -d 'work'; cd ~/Workspace || return; tmux attach-session -d;'
+alias ovpn='pass -c VPN/corp && sudo openvpn --config $HOME/client.ovpn'
+alias ovpn-prod='pass -c VPN/prod && sudo openvpn --config $HOME/client-prod.ovpn'
+alias ovpn-prod-okta='pass -c okta && sudo openvpn --config $HOME/client-prod-okta.ovpn'
+alias ovpn-corp-okta='pass -c okta && sudo openvpn --config $HOME/client-corp-okta.ovpn'
+alias oldDev='export AWS_PROFILE=admin-service && echo $AWS_PROFILE'
+alias newDev='export AWS_PROFILE=cleanroom && echo $AWS_PROFILE'
+alias sort-mirrors='sudo reflector --country US --verbose --latest 5 --sort rate --save /etc/pacman.d/mirrorlist'
+alias sys='systemctl'
+alias pac='sudo pacman'
+alias pacs='sudo pacman -S'
+alias rm='noglob rm -iv --one-file-system'
+alias vs='vscodium .'
+
+alias tma='tmux attach -d'
+alias n='npm'
+alias nr='npm run'
+
+alias login="aws-okta login"
+alias dev="aws-okta exec dev --"
+alias prod="aws-okta exec prod --"
+alias prod-marketplace="aws-okta exec prod-marketplace --"
+alias venmo-dev="aws-okta exec venmo-dev --"
+alias venmo-prod="aws-okta exec venmo-prod --"
+
+origin() {
+  HOSTNAME="$( git config remote.origin.url | cut -f1 -d : | cut -f2 -d @ )"
+  REPO="$( git config remote.origin.url | cut -f2 -d : | cut -f1 -d . )"
+  xdg-open "https://$HOSTNAME/$REPO"
+  sleep 1
+  kill -SIGINT $!
+}
+
+export EDITOR=nvim
+export GOPATH=$HOME/go
+export AWS_PROFILE=admin-service
+
+export AWS_SESSION_TTL=8h
+export AWS_ASSUME_ROLE_TTL=8h
+export AWS_OKTA_BACKEND=secret-service
+export PAGERDUTY_TOKEN='z7ENxA4YViLsz7_E7hyn'
+
+export PATH=$HOME/.local/bin:$GOPATH/bin:$PATH
+
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi
+
+export LANG=en_US.UTF-8
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /home/zac/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/zac/.config/yarn/global/node_modules/tabtab/.completions/serverless.zsh
+[[ -f /home/zac/.nvm/versions/node/v8.10.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/zac/.nvm/versions/node/v8.10.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /home/zac/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh ]] && . /home/zac/.config/yarn/global/node_modules/tabtab/.completions/sls.zsh
-
+[[ -f /home/zac/.nvm/versions/node/v8.10.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /home/zac/.nvm/versions/node/v8.10.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f /home/zac/Workspace/Services/admin-service/node_modules/tabtab/.completions/slss.zsh ]] && . /home/zac/Workspace/Services/admin-service/node_modules/tabtab/.completions/slss.zsh
+[[ -f /home/zac/.nvm/versions/node/v8.10.0/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /home/zac/.nvm/versions/node/v8.10.0/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
+export PATH="$HOME/.tfenv/bin:$PATH"
+
+source $HOME/.config/exoscale/env
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
+export PIPENV_VENV_IN_PROJECT=1
