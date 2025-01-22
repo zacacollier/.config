@@ -1,0 +1,212 @@
+# Filename:      /etc/skel/.zshrc
+# Purpose:       config file for zsh (z shell)
+# Authors:       (c) grml-team (grml.org)
+# Bug-Reports:   see http://grml.org/bugs/
+# License:       This file is licensed under the GPL v2 or any later version.
+################################################################################
+# Nowadays, grml's zsh setup lives in only *one* zshrc file.
+# That is the global one: /etc/zsh/zshrc (from grml-etc-core).
+# It is best to leave *this* file untouched and do personal changes to
+# your zsh setup via ${HOME}/.zshrc.local which is loaded at the end of
+# the global zshrc.
+#
+# That way, we enable people on other operating systems to use our
+# setup, too, just by copying our global zshrc to their ${HOME}/.zshrc.
+# Adjustments would still go to the .zshrc.local file.
+################################################################################
+
+## Inform users about upgrade path for grml's old zshrc layout, assuming that:
+## /etc/skel/.zshrc was installed as ~/.zshrc,
+## /etc/zsh/zshrc was installed as ~/.zshrc.global and
+## ~/.zshrc.local does not exist yet.
+if [ -r ~/.zshrc -a -r ~/.zshrc.global -a ! -r ~/.zshrc.local ] ; then
+    printf '-!-\n'
+    printf '-!- Looks like you are using the old zshrc layout of grml.\n'
+    printf '-!- Please read the notes in the grml-zsh-refcard, being'
+    printf '-!- available at: http://grml.org/zsh/\n'
+    printf '-!-\n'
+    printf '-!- If you just want to get rid of this warning message execute:\n'
+    printf '-!-        touch ~/.zshrc.local\n'
+    printf '-!-\n'
+fi
+
+# Base16 Shell
+# BASE16_SHELL="$HOME/.config/base16-shell/"
+# [ -n "$PS1" ] && \
+#     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+#         eval "$("$BASE16_SHELL/profile_helper.sh")"
+# base16_tomorrow-night
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Antigen
+# source /usr/local/share/antigen/antigen.zsh
+
+# Plugins
+# export NVM_LAZY_LOAD=true
+# export NVM_COMPLETION=true
+# antigen bundle lukechilds/zsh-nvm
+
+# antigen apply
+
+
+# edit command in $EDITOR (neovim)
+# Enable Ctrl-x-e to edit command line
+autoload -U edit-command-line
+# Emacs style
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
+
+function chpwd() {
+    emulate -L zsh
+    ls -a
+}
+
+function npmi {
+    mkdir node_modules 2>/dev/null
+    touch ./node_modules/.metadata_never_index
+    if [ -f yarn.lock ]; then
+        yarn install $@
+    else
+        npm install $@
+    fi
+}
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+# git aliases
+alias ga='git add'
+alias gst='git status'
+alias gcm='git commit -m'
+alias gca='git commit --amend --no-edit'
+alias gri='git rebase -i'
+alias glog='git log --pretty=oneline'
+alias gurp='git commit -am "up" && gri HEAD~2'
+alias gco='git checkout'
+alias gcom='git checkout master'
+alias gpo='git push origin $(git rev-parse --abbrev-ref HEAD)'
+
+# tmux aliases
+alias tma='tmux attach -d'
+alias tmn='tmux new-session -d 'me'; cd ~/Workspace || return; tmux new-session -d 'work'; cd ~/Workspace || return; tmux attach-session -d;'
+
+# sort archlinux mirrorlist
+alias sort-mirrors='sudo reflector --country US --verbose --latest 5 --sort rate --save /etc/pacman.d/mirrorlist'
+alias sys='systemctl'
+alias pac='sudo pacman'
+alias pacs='sudo pacman -S'
+# alias rm='noglob rm -rfiv --one-file-system'
+
+# vscode
+alias vs='codium .'
+
+origin() {
+  HOSTNAME="$( git config remote.origin.url | cut -f1 -d : | cut -f2 -d @ )"
+  REPO="$( git config remote.origin.url | cut -f2 -d : | cut -f1 -d . )"
+  xdg-open "https://$HOSTNAME/$REPO"
+  sleep 1
+  kill -SIGINT $!
+}
+
+export EDITOR=nvim
+export GOPATH=$HOME/go
+
+export AWS_SESSION_TTL=8h
+export AWS_ASSUME_ROLE_TTL=8h
+export PYENV_ROOT="$HOME/.pyenv"
+# export LIQUIBASE_HOME=/usr/local/opt/liquibase/libexec
+
+export LANG=en_US.UTF-8
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
+export PIPENV_VENV_IN_PROJECT=1
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
+#OktaAWSCLI
+if [[ -f "$HOME/.okta/bash_functions" ]]; then
+    . "$HOME/.okta/bash_functions"
+fi
+if [[ -d "$HOME/.okta/bin" && ":$PATH:" != *":$HOME/.okta/bin:"* ]]; then
+    PATH="$HOME/.okta/bin:$PATH"
+fi
+
+# tfswitch
+# load-tfswitch() {
+#   local tfswitchrc_path=".tfswitchrc"
+#   local terraform_version_path=".terraform-version"
+# 
+#   if [ -f "$tfswitchrc_path" ]; then
+#     tfswitch
+#   fi
+#   if [ -f "$terraform_version_path" ]; then
+#     tfswitch
+#   fi
+# }
+# add-zsh-hook chpwd load-tfswitch
+# load-tfswitch
+
+# autoload nvm
+# auto-switch-node-version() {
+#   NVMRC_PATH=$(nvm_find_nvmrc)
+# 
+#   if [[ ! -z "$NVMRC_PATH" ]]; then
+#     # .nvmrc file found!
+# 
+#     # Read the file
+#     REQUESTED_NODE_VERSION=$(cat $NVMRC_PATH)
+# 
+#     # Find an installed Node version that satisfies the .nvmrc
+#     MATCHED_NODE_VERSION=$(nvm_match_version $REQUESTED_NODE_VERSION)
+# 
+#     if [[ "$MATCHED_NODE_VERSION" != 'N/A' ]]; then
+#       nvm use $MATCHED_NODE_VERSION
+#     else
+#       echo "nvm: node $REQUESTED_NODE_VERSION not installed"
+#     fi
+#   else
+#     # No .nvmrc file found.
+# 
+#     # Clear any warning suppression
+#     unset AUTOSWITCH_NODE_SUPPRESS_WARNING
+# 
+#     # Revert to default version, unless that's already the current version.
+#     if [[ $CURRENT_NODE_VERSION != $(nvm version default)  ]]; then
+#       nvm use default
+#     fi
+#   fi
+# }
+
+# Run the above function in ZSH whenever you change directory
+autoload -U add-zsh-hook
+# add-zsh-hook chpwd auto-switch-node-version
+# auto-switch-node-version
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
+
+# Ken's elixir debugging magic
+export CPPFLAGS="${CPPFLAGS+"$CPPFLAGS "}-I/opt/homebrew/opt/unixodbc/include"
+export LDFLAGS="${LDFLAGS+"$LDFLAGS "}-L/opt/homebrew/opt/unixodbc/lib"
+export KERL_CONFIGURE_OPTIONS="--with-odbc=/opt/homebrew/opt/unixodbc"
+
+eval "$(rbenv init - zsh)"
+
+export LW_ACCOUNT="braincheck.lacework.net"
+export LW_API_KEY="BRAINCHE_5747004E8EDBC969A36F627E7ECF04972BC76E5E8B126CF"
+export LW_API_SECRET="_9bb9bfed7f043f3df732a14ae48bceb2"
+
+export PATH="/Applications/MacPorts/Emacs.app/Contents/MacOS:$PATH"
+export ANDROID_HOME="$HOME/Library/Android/sdk"

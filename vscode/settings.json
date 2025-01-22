@@ -1,0 +1,47 @@
+{
+  "workbench.colorTheme": "Solarized Light",
+  "[elixir]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.wordBasedSuggestions": "off",
+    "editor.formatOnType": true,
+    "editor.trimAutoWhitespace": false,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "elixirLS.enableTestLenses": true
+  },
+  "editor.lineNumbers": "relative",
+  "editor.formatOnSave": true,
+  "editor.fontSize": 14,
+  "editor.fontLigatures": false,
+  "eslint.format.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "eslint.validate": [
+    "javascript"
+  ],
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+  },
+  "window.zoomLevel": -1,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  },
+  "elixirLS.mixEnv": "dev",
+  "rubyLsp.featuresConfiguration": {},
+  "rubyLsp.formatter": "rubyfmt",
+  "jest.runMode": {
+    "type": "on-demand"
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "[shellscript]": {
+    "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  }
+}
